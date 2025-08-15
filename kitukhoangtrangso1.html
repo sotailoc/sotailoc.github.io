@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kí tự đặc biệt khoảng trắng ngắn và khoảng trắng dài</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .kitukhoangcach {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 600px;
+            margin: 20px auto;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .kc-header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #ff4d4d;
+        }
+        
+        .kc-header h2 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: #ffcc00;
+            text-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
+        }
+        
+        .kc-header p {
+            font-size: 16px;
+            color: #ddd;
+        }
+        
+        .kc-input-group {
+            margin-bottom: 25px;
+        }
+        
+        .kc-input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #ffcc00;
+        }
+        
+        .kc-input-group input {
+            width: 100%;
+            padding: 14px;
+            border-radius: 10px;
+            border: 2px solid #444;
+            background: rgba(0, 0, 0, 0.4);
+            color: #fff;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .kc-input-group input:focus {
+            border-color: #ffcc00;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 204, 0, 0.3);
+        }
+        
+        .space-type-selector {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .space-type {
+            flex: 1;
+            min-width: 160px;
+            background: rgba(30, 30, 60, 0.7);
+            border-radius: 10px;
+            padding: 15px;
+            border: 1px solid rgba(100, 100, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .space-type:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .space-type.active {
+            background: rgba(255, 204, 0, 0.2);
+            border-color: #ffcc00;
+        }
+        
+        .space-type h4 {
+            color: #4dff4d;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .space-type p {
+            font-size: 14px;
+            color: #ccc;
+        }
+        
+        .convert-btn {
+            display: block;
+            width: 100%;
+            background: linear-gradient(to right, #ff416c, #ff4b2b);
+            color: white;
+            border: none;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(255, 75, 43, 0.4);
+        }
+        
+        .convert-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 75, 43, 0.6);
+        }
+        
+        .result-container {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 25px;
+            border: 2px dashed #ffcc00;
+            display: none;
+        }
+        
+        .result-container.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .result-title {
+            color: #ffcc00;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .result-box {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            word-wrap: break-word;
+            font-size: 18px;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .copy-btn {
+            background: linear-gradient(to right, #00b09b, #96c93d);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+        }
+        
+        .copy-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 176, 155, 0.4);
+        }
+        
+        .warning-box {
+            background: rgba(255, 204, 0, 0.2);
+            border-left: 4px solid #ffcc00;
+            padding: 15px;
+            border-radius: 0 8px 8px 0;
+            margin: 20px 0 0;
+            font-size: 14px;
+        }
+        
+        .kc-footer {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 14px;
+            color: #aaa;
+        }
+        
+        @media (max-width: 500px) {
+            .kitukhoangcach {
+                padding: 15px;
+                border-radius: 10px;
+            }
+            
+            .kc-header h2 {
+                font-size: 24px;
+            }
+            
+            .space-type {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="kitukhoangcach">
+        <div class="kc-header">
+            <h2><i class="fas fa-space-shuttle"></i> Tạo Khoảng Cách Đặc Biệt</h2>
+            <p>Nguồn: <a href="https://sotailoc.com/tao-ki-tu-khoang-trong/">Công cụ tạo kí tự đặc biệt khoảng trắng</a> tại <a href="https://sotailoc.com">sotailoc.com</a></p>
+        </div>
+        
+        <div class="kc-input-group">
+            <label for="username"><i class="fas fa-user"></i> Nhập username của bạn</label>
+            <input type="text" id="username" placeholder="Ví dụ: FreeFireProPlayer">
+        </div>
+        
+        <div class="space-type-selector">
+            <div class="space-type" data-type="small">
+                <h4><i class="fas fa-minus"></i> Khoảng Trống Nhỏ</h4>
+                <p>Dành cho Free Fire OB44-49, HTML</p>
+            </div>
+            <div class="space-type" data-type="large">
+                <h4><i class="fas fa-arrows-alt-h"></i> Khoảng Trống Lớn</h4>
+                <p>Dành cho Liên Quân, Play Together</p>
+            </div>
+            <div class="space-type" data-type="both">
+                <h4><i class="fas fa-bars"></i> Cả Hai</h4>
+                <p>Tạo cả 2 loại khoảng trống</p>
+            </div>
+        </div>
+        
+        <button class="convert-btn" id="convertBtn">
+            <i class="fas fa-sync-alt"></i> Chuyển Đổi Username
+        </button>
+        
+        <div class="result-container" id="smallResult">
+            <h3 class="result-title"><i class="fas fa-minus"></i> Kết quả khoảng trống nhỏ</h3>
+            <div class="result-box" id="smallResultBox"></div>
+            <button class="copy-btn" data-target="small">
+                <i class="fas fa-copy"></i> Sao chép khoảng trống nhỏ
+            </button>
+        </div>
+        
+        <div class="result-container" id="largeResult">
+            <h3 class="result-title"><i class="fas fa-arrows-alt-h"></i> Kết quả khoảng trống lớn</h3>
+            <div class="result-box" id="largeResultBox"></div>
+            <button class="copy-btn" data-target="large">
+                <i class="fas fa-copy"></i> Sao chép khoảng trống lớn
+            </button>
+        </div>
+        
+        <div class="warning-box">
+            <p><i class="fas fa-exclamation-circle"></i> <strong>Lưu ý:</strong> Đối với Free Fire, hãy đảm bảo bạn đã nhập "Free Fire" trước khi dán ký tự khoảng trống. Ký tự khoảng trống lớn chỉ hỗ trợ Liên Quân và Play Together.</p>
+        </div>
+        
+        <div class="kc-footer">
+            <p>© 2025 - Công cụ tạo ký tự khoảng trống đặc biệt | Hỗ trợ Free Fire OB49</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Ký tự khoảng trống
+            const smallSpace = '\u3164'; // U+3164
+            const largeSpace = '\u2003'; // U+2003
+            
+            // Các phần tử DOM
+            const spaceTypes = document.querySelectorAll('.space-type');
+            const convertBtn = document.getElementById('convertBtn');
+            const usernameInput = document.getElementById('username');
+            const smallResult = document.getElementById('smallResult');
+            const largeResult = document.getElementById('largeResult');
+            const smallResultBox = document.getElementById('smallResultBox');
+            const largeResultBox = document.getElementById('largeResultBox');
+            const copyButtons = document.querySelectorAll('.copy-btn');
+            
+            let selectedType = 'small'; // Mặc định chọn khoảng trống nhỏ
+            
+            // Xử lý chọn loại khoảng trống
+            spaceTypes.forEach(type => {
+                type.addEventListener('click', () => {
+                    // Xóa class active khỏi tất cả
+                    spaceTypes.forEach(t => t.classList.remove('active'));
+                    // Thêm class active cho phần tử được chọn
+                    type.classList.add('active');
+                    // Cập nhật loại được chọn
+                    selectedType = type.dataset.type;
+                });
+            });
+            
+            // Kích hoạt mặc định cho khoảng trống nhỏ
+            spaceTypes[0].classList.add('active');
+            
+            // Xử lý chuyển đổi
+            convertBtn.addEventListener('click', () => {
+                const username = usernameInput.value.trim();
+                
+                if (!username) {
+                    alert('Vui lòng nhập username trước khi chuyển đổi!');
+                    return;
+                }
+                
+                // Tạo username với khoảng trống
+                const usernameWithSmallSpace = `Free Fire${smallSpace}${username}`;
+                const usernameWithLargeSpace = `Liên Quân${largeSpace}${username}`;
+                
+                // Hiển thị kết quả tùy theo lựa chọn
+                if (selectedType === 'small' || selectedType === 'both') {
+                    smallResultBox.textContent = usernameWithSmallSpace;
+                    smallResult.classList.add('active');
+                } else {
+                    smallResult.classList.remove('active');
+                }
+                
+                if (selectedType === 'large' || selectedType === 'both') {
+                    largeResultBox.textContent = usernameWithLargeSpace;
+                    largeResult.classList.add('active');
+                } else {
+                    largeResult.classList.remove('active');
+                }
+            });
+            
+            // Xử lý sao chép
+            copyButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const target = button.dataset.target;
+                    let textToCopy = '';
+                    
+                    if (target === 'small') {
+                        textToCopy = smallSpace;
+                    } else if (target === 'large') {
+                        textToCopy = largeSpace;
+                    }
+                    
+                    // Tạo phần tử textarea ẩn để sao chép
+                    const textArea = document.createElement('textarea');
+                    textArea.value = textToCopy;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    
+                    try {
+                        document.execCommand('copy');
+                        alert('Đã sao chép ký tự khoảng trống thành công!');
+                    } catch (err) {
+                        alert('Không thể sao chép, vui lòng thử lại');
+                    }
+                    
+                    document.body.removeChild(textArea);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
